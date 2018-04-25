@@ -8,5 +8,11 @@
             "email": "0x53656e@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Senhung\\Config\\": "Configuration/"
+        },
+        "files": ["Configuration/Configuration.php"]
+    },
     "require": {}
 }
