@@ -42,6 +42,11 @@ class Configuration
 
         /* Parse content to config array */
         foreach ($lines as $line) {
+            /* Skip Empty Line */
+            if (trim(rtrim($line, "\n")) == '') {
+                continue;
+            }
+
             $parsedConfig = self::parseContent($line);
 
             self::$configs[$parsedConfig['key']] = $parsedConfig['value'];
