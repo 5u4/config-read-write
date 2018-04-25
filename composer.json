@@ -1,0 +1,12 @@
+{
+    "name": "senhung/config-read-write",
+    "description": "A package for reading and writing config file",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Senhung Wong",
+            "email": "0x53656e@gmail.com"
+        }
+    ],
+    "require": {}
+}
