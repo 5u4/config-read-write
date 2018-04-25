@@ -11,7 +11,6 @@ A PHP package for reading and setting configuration fast and easy.
 ```
 APP_NAME=config-read-write
 VERSION=1.0.0
-
 ```
 
 ### Config Reading
