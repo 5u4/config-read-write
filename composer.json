@@ -10,9 +10,9 @@
     ],
     "autoload": {
         "psr-4": {
-            "Senhung\\Config\\": "Configuration/"
+            "Senhung\\Config\\": "src/Configuration/"
         },
-        "files": ["Configuration/Configuration.php"]
+        "files": ["src/Configuration/Configuration.php"]
     },
     "require": {}
 }

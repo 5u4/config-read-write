@@ -50,7 +50,7 @@ Configuration::initializeConfigs();
 ### Read Config
 
 ```php
-Configuration::read('<config-you-want-to-read>') . "\n";
+Configuration::read('<config-you-want-to-read>');
 ```
 
 ### Write Config
