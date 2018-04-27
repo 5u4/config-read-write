@@ -96,7 +96,7 @@ class Configuration
         $configName = trim(substr($line, 0, $separatePosition));
 
         /* Get config value */
-        $configValue = trim(rtrim(substr($line, $separatePosition + 1), "\n"));
+        $configValue = trim(rtrim(substr($line, $separatePosition + strlen(self::$separator)), "\n"));
 
         /* Transfer config value to number */
         if (is_numeric($configValue)) {
