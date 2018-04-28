@@ -12,22 +12,30 @@ class Configuration
     private static $separator = '=';
 
     /**
+     * Set Path of Config File
+     *
      * @param string $dir
+     * @return void
      */
-    public static function setPath(string $dir)
+    public static function setPath(string $dir): void
     {
         self::$path = $_SERVER['DOCUMENT_ROOT'] . $dir;
     }
 
     /**
+     * Change Config Key & Value Separator (Default: '=')
+     *
      * @param string $separator
+     * @return void
      */
-    public static function setSeparator(string $separator)
+    public static function setSeparator(string $separator): void
     {
         self::$separator = $separator;
     }
 
     /**
+     * Parse File to Config Array
+     *
      * @return void
      */
     public static function initializeConfigs(): void
@@ -42,18 +50,22 @@ class Configuration
 
         /* Parse content to config array */
         foreach ($lines as $line) {
-            /* Skip Empty Line */
-            if (trim(rtrim($line, "\n")) == '') {
+            /* Skip Empty Line and Comment Line */
+            if (trim(rtrim($line, "\n")) == '' || trim($line)[0] == '#') {
                 continue;
             }
 
+            /* Parse */
             $parsedConfig = self::parseContent($line);
 
+            /* Set Config Array */
             self::$configs[$parsedConfig['key']] = $parsedConfig['value'];
         }
     }
 
     /**
+     * Read Config Value with Key
+     *
      * @param string $key
      * @return mixed
      */
@@ -62,7 +74,15 @@ class Configuration
         return self::$configs[$key];
     }
 
-    public static function set(string $key, string $value)
+    /**
+     * Set Config Value with Key
+     * (Will Overwrite Comments and Empty Lines)
+     *
+     * @param string $key
+     * @param string $value
+     * @return void
+     */
+    public static function set(string $key, string $value): void
     {
         /* Check if key exists */
         if (!self::$configs[$key]) {
@@ -82,7 +102,7 @@ class Configuration
     }
 
     /**
-     * Parse a line to key and value
+     * Parse a Line to Key and Value
      *
      * @param string $line
      * @return array
@@ -98,11 +118,15 @@ class Configuration
         /* Get config value */
         $configValue = trim(rtrim(substr($line, $separatePosition + strlen(self::$separator)), "\n"));
 
-        /* Transfer config value to number */
+        /* Transform config value to number */
         if (is_numeric($configValue)) {
-            if ((int)$configValue == $configValue) { /* Is int */
+            /* Is int */
+            if ((int)$configValue == $configValue) {
                 $configValue = (int)$configValue;
-            } else { /* Is float */
+            }
+
+            /* Is float */
+            else {
                 $configValue = (float)$configValue;
             }
         }

@@ -19,8 +19,9 @@ Create a file and input the configurations
 For example: 
 
 ```
+# Some Comments
 APP_NAME->config-read
-VERSION->1.0.2
+VERSION->1.1.0
 ```
 
 3. Initialize Configuration
@@ -47,6 +48,17 @@ Configuration::initializeConfigs();
 
 ## How To Use
 
+### Comment Config
+
+Use `#` in config file to comment a line
+
+```
+# This is a comment, will not be read by the tool
+OTHER_CONFIG=will-be-read
+```
+
+**Note: Set config will overwrite comments and empty lines in original config file**
+
 ### Read Config
 
 ```php
@@ -59,13 +71,16 @@ Configuration::read('<config-you-want-to-read>');
 Configuration::set('<config-you-want-to-write>', '<change-to>');
 ```
 
+**Note: Set config will overwrite comments and empty lines in original config file**
+
 ## Example
 
 ### Configuration File
 
 ```
+# App Configs
 APP_NAME=config-read
-VERSION=1.0.2
+VERSION=1.1.0
 ```
 
 ### Config Reading
@@ -101,6 +116,6 @@ Output:
 
 ```bash
 config-read
-1.0.2
+1.1.0
 config-write
 ```
