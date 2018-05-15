@@ -20,13 +20,30 @@ For example:
 
 ```
 # Some Comments
-APP_NAME->config-read
-VERSION->1.1.0
+APP_NAME=config-read
+VERSION=2.0.0
 ```
 
-3. Initialize Configuration
+## How To Use
 
-Add the following code in your program's main entry
+### Initialize
+
+```php
+Configruation::initializeConfigs(
+    [string $configFilePath [, bool $absolutePath [, string $separator]]]
+): void
+```
+
+`$configFilePath`: the location your config file is placed (default: `'.env'`)
+
+`$absolutePath`: the path defined is absolute path or relative path (default: `true`)
+
+`$separator`: the separator between config keys and values (default: `'='`)
+
+#### Config Entry
+
+Add the following code in your program's main entry if you want to specify a different config file name or separator 
+other than the default ones
 
 ```php
 <?php
@@ -35,18 +52,12 @@ require_once 'vendor/autoload.php';
 
 use Senhung\Config\Configuration;
 
-/* Set configuration file path */
-Configuration::setPath('<your-configuration-file-directory>');
-
-/* You can set your own separator (default: '=') */
-Configuration::setSeparator('->');
-
 /* Initialize config array in Configuration class */
-Configuration::initializeConfigs();
+Configuration::initializeConfigs('config_file_path', true, 'separator');
 
 ```
 
-## How To Use
+Note: you don't need to have this file if you are using `.env` as your config path and `=` as your separator.
 
 ### Comment Config
 
@@ -80,10 +91,10 @@ Configuration::set('<config-you-want-to-write>', '<change-to>');
 ```
 # App Configs
 APP_NAME=config-read
-VERSION=1.1.0
+VERSION=2.0.0
 ```
 
-### Config Reading
+### Config Reading and Writing
 
 ```php
 <?php
@@ -91,12 +102,6 @@ VERSION=1.1.0
 require_once 'vendor/autoload.php';
 
 use Senhung\Config\Configuration;
-
-/* Set configuration file path */
-Configuration::setPath('conf');
-
-/* Initialize config array in Configuration class */
-Configuration::initializeConfigs();
 
 /* Read config APP_NAME */
 echo Configuration::read('APP_NAME') . "\n";
@@ -116,6 +121,6 @@ Output:
 
 ```bash
 config-read
-1.1.0
+2.0.0
 config-write
 ```

@@ -10,36 +10,28 @@ class Configuration
     private static $configs;
     /** @var string $separator */
     private static $separator = '=';
-
-    /**
-     * Set Path of Config File
-     *
-     * @param string $dir
-     * @return void
-     */
-    public static function setPath(string $dir): void
-    {
-        self::$path = $_SERVER['DOCUMENT_ROOT'] . $dir;
-    }
-
-    /**
-     * Change Config Key & Value Separator (Default: '=')
-     *
-     * @param string $separator
-     * @return void
-     */
-    public static function setSeparator(string $separator): void
-    {
-        self::$separator = $separator;
-    }
+    /** @var bool $initialized */
+    private static $initialized = false;
 
     /**
      * Parse File to Config Array
      *
+     * @param string $configPath
+     * @param bool $absolutePath
+     * @param string $separator
      * @return void
      */
-    public static function initializeConfigs(): void
-    {
+    public static function initializeConfigs(
+        string $configPath = '.env',
+        bool $absolutePath = true,
+        string $separator = '='
+    ): void {
+        /* Set path */
+        self::$path = ($absolutePath ? $_SERVER['DOCUMENT_ROOT'] : '') . $configPath;
+
+        /* Change separator */
+        self::$separator = $separator;
+
         /* Check if file exists */
         if (!file_exists(self::$path)) {
             return;
@@ -61,6 +53,9 @@ class Configuration
             /* Set Config Array */
             self::$configs[$parsedConfig['key']] = $parsedConfig['value'];
         }
+
+        /* Set initialized */
+        self::$initialized = true;
     }
 
     /**
@@ -71,6 +66,12 @@ class Configuration
      */
     public static function read(string $key)
     {
+        /* Check if initialized */
+        if (!self::$initialized) {
+            self::initialize();
+        }
+
+        /* Return key */
         return self::$configs[$key];
     }
 
@@ -84,6 +85,11 @@ class Configuration
      */
     public static function set(string $key, string $value): void
     {
+        /* Check if initialized */
+        if (!self::$initialized) {
+            self::initialize();
+        }
+
         /* Check if key exists */
         if (!self::$configs[$key]) {
             return;
@@ -99,6 +105,20 @@ class Configuration
 
         /* Write to file */
         file_put_contents(self::$path, self::convertConfigsToFile());
+    }
+
+    /**
+     * Initialize required fields
+     */
+    private static function initialize(): void
+    {
+        /* Check if initialized */
+        if (self::$initialized) {
+            return;
+        }
+
+        /* Initialize */
+        self::initializeConfigs();
     }
 
     /**
